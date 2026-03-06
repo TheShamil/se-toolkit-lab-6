@@ -341,8 +341,19 @@ The code stubs in `backend/app/etl.py` contain detailed TODOs.
 
 ### 1.4. Finish the task
 
-1. [Create a PR](../../../wiki/git-workflow.md#create-a-pr-to-the-main-branch-in-your-fork) with your changes.
-2. [Get a PR review](../../../wiki/git-workflow.md#get-a-pr-review) and complete the subsequent steps in the `Git workflow`.
+1. Go to your fork on `GitHub` and click `Pull requests` → `New pull request`.
+
+2. **Change the base repository to your own fork** — by default `GitHub` sets the base to the upstream (`inno-se-toolkit/se-toolkit-lab-5`). Click `base repository` and select `<your-github-username>/se-toolkit-lab-5` instead.
+
+3. Set the base branch to `main` and the compare branch to your task branch (e.g. `task/1-build-data-pipeline`).
+
+4. Write a PR title and description. Link the PR to the issue by writing `Closes #<issue-number>` in the description.
+
+5. Click `Create pull request`.
+
+6. Ask your partner to review and approve the PR.
+
+7. Merge the PR and close the issue.
 
 ### 1.5. Check the task using the autochecker
 
