@@ -18,8 +18,8 @@ No issues found.
 1. ~~**[Medium]** Line 250: "Start the `Qwen code` coding agent in the terminal inside the project directory" provides no link or reference to setup/installation instructions for the tool. A student unfamiliar with `Qwen code` would not know what command to run or how to launch it.
    **Suggested fix:** Add a link to a wiki page explaining how to install and start the agent (e.g., `[Start the \`Qwen code\` coding agent](../../../wiki/qwen-code.md#start-the-agent)`), or inline the startup command.~~
 
-2. **[Low]** Lines 336, 340, 344: Steps say "try `GET /items/`", "Try `GET /learners/`", "Try `GET /interactions/`" using the vague verb "try", unlike [step 1.4.3](lab/tasks/required/task-1.md#143-run-and-test-locally) (line 291) which uses explicit Swagger UI instructions ("expand ..., click `Try it out`, then `Execute`").
-   **Suggested fix:** Use consistent phrasing such as "expand `GET /items/`, click `Try it out`, then `Execute`", or reference the interaction pattern established in step 1.4.3.
+2. ~~**[Low]** Lines 336, 340, 344: Steps say "try `GET /items/`", "Try `GET /learners/`", "Try `GET /interactions/`" using the vague verb "try", unlike [step 1.4.3](lab/tasks/required/task-1.md#143-run-and-test-locally) (line 291) which uses explicit Swagger UI instructions ("expand ..., click `Try it out`, then `Execute`").
+   **Suggested fix:** Use consistent phrasing such as "expand `GET /items/`, click `Try it out`, then `Execute`", or reference the interaction pattern established in step 1.4.3.~~
 
 ### D3. Student navigation
 
@@ -210,12 +210,12 @@ No TODOs found.
 | --- | --- |
 | Conceptual [High] | 0 |
 | Conceptual [Medium] | 0 |
-| Conceptual [Low] | 3 |
+| Conceptual [Low] | 2 |
 | Convention [High] | 0 |
 | Convention [Medium] | 0 |
 | Convention [Low] | 2 |
 | TODOs | 0 |
 | Empty sections | 0 |
-| **Total** | **5** |
+| **Total** | **4** |
 
-**Overall:** The remaining issues are conceptual (author decisions required) plus two low-severity convention findings. Step 1.2 includes branch creation instructions that the template reserves for a dedicated step (Section 1 finding), and one borderline compound instruction in step 1.4.3 could optionally be split (4.1 finding). All high and medium violations have been fixed.
+**Overall:** The remaining issues are conceptual (author decisions required) plus two low-severity convention findings. Step 1.2 includes branch creation instructions that the template reserves for a dedicated step (Section 1 finding), and one borderline compound instruction in step 1.4.3 could optionally be split (4.1 finding). All high and medium violations have been fixed. The D2 "try" verb inconsistency was resolved by referencing the interaction pattern from step 1.4.3.

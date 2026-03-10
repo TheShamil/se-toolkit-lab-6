@@ -331,15 +331,15 @@ The code stubs in `backend/app/etl.py` contain detailed TODOs.
 
 #### 1.4.4. Verify the data locally
 
-1. In local [`Swagger UI`](../../../wiki/swagger.md#open-swagger-ui), try `GET /items/`.
+1. In local [`Swagger UI`](../../../wiki/swagger.md#open-swagger-ui), run `GET /items/` as in [step 1.4.3](#143-run-and-test-locally).
 
    You should see a list of lab and task items created by the pipeline.
 
-2. Try `GET /learners/`.
+2. Run `GET /learners/`.
 
    You should see a list of learners with anonymized `external_id` values and student groups.
 
-3. Try `GET /interactions/`.
+3. Run `GET /interactions/`.
 
    You should see interaction records with `score`, `checks_passed`, and `checks_total` fields.
 
