@@ -6,32 +6,34 @@ import sys
 from pathlib import Path
 
 
-def test_agent_outputs_valid_json():
-    """Test that agent.py outputs valid JSON with required fields."""
-    # Get the project root directory
+def run_agent(question: str) -> dict:
+    """Helper to run agent.py and parse JSON output."""
     project_root = Path(__file__).parent.parent
     agent_path = project_root / "agent.py"
 
-    # Run agent.py with a simple question using uv run
     result = subprocess.run(
-        ["uv", "run", str(agent_path), "What is 2 + 2?"],
+        ["uv", "run", str(agent_path), question],
         capture_output=True,
         text=True,
         cwd=project_root,
+        timeout=120,
     )
 
-    # Check exit code
     assert result.returncode == 0, f"Agent failed with: {result.stderr}"
 
     # Parse stdout as JSON (last line, since debug output goes to stderr)
-    # Filter out any uv warnings that might appear
     stdout_lines = result.stdout.strip().split("\n")
-    json_line = stdout_lines[-1]  # Last line should be the JSON output
+    json_line = stdout_lines[-1]
 
     try:
-        output = json.loads(json_line)
+        return json.loads(json_line)
     except json.JSONDecodeError as e:
         raise AssertionError(f"Invalid JSON output: {json_line}") from e
+
+
+def test_agent_outputs_valid_json():
+    """Test that agent.py outputs valid JSON with required fields."""
+    output = run_agent("What is 2 + 2?")
 
     # Check required fields
     assert "answer" in output, "Missing 'answer' field in output"
@@ -42,3 +44,40 @@ def test_agent_outputs_valid_json():
     assert output["answer"], "Answer field is empty"
 
     print(f"✓ Test passed. Output: {output}")
+
+
+def test_merge_conflict_question():
+    """Test that merge conflict question uses read_file and returns wiki source."""
+    output = run_agent("How do you resolve a merge conflict?")
+
+    # Check required fields
+    assert "answer" in output, "Missing 'answer' field"
+    assert "source" in output, "Missing 'source' field"
+    assert "tool_calls" in output, "Missing 'tool_calls' field"
+    assert isinstance(output["tool_calls"], list), "'tool_calls' must be an array"
+
+    # Check that at least one tool call used read_file
+    tools_used = [tc.get("tool") for tc in output["tool_calls"]]
+    assert "read_file" in tools_used, f"Expected read_file in tool_calls, got: {tools_used}"
+
+    # Check that source contains wiki/git reference
+    assert "wiki/" in output["source"].lower() or "wiki/" in output["answer"].lower(), \
+        f"Expected wiki reference in source or answer, got source: {output['source']}"
+
+    print(f"✓ Test passed. Source: {output['source']}")
+
+
+def test_wiki_list_files_question():
+    """Test that wiki listing question uses list_files tool."""
+    output = run_agent("What files are in the wiki?")
+
+    # Check required fields
+    assert "answer" in output, "Missing 'answer' field"
+    assert "tool_calls" in output, "Missing 'tool_calls' field"
+    assert isinstance(output["tool_calls"], list), "'tool_calls' must be an array"
+
+    # Check that at least one tool call used list_files
+    tools_used = [tc.get("tool") for tc in output["tool_calls"]]
+    assert "list_files" in tools_used, f"Expected list_files in tool_calls, got: {tools_used}"
+
+    print(f"✓ Test passed. Tools used: {tools_used}")
