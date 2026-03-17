@@ -81,3 +81,43 @@ def test_wiki_list_files_question():
     assert "list_files" in tools_used, f"Expected list_files in tool_calls, got: {tools_used}"
 
     print(f"✓ Test passed. Tools used: {tools_used}")
+
+
+def test_backend_framework_question():
+    """Test that backend framework question uses read_file to examine source code."""
+    output = run_agent("What Python web framework does the backend use?")
+
+    # Check required fields
+    assert "answer" in output, "Missing 'answer' field"
+    assert "tool_calls" in output, "Missing 'tool_calls' field"
+    assert isinstance(output["tool_calls"], list), "'tool_calls' must be an array"
+
+    # Check that at least one tool call used read_file
+    tools_used = [tc.get("tool") for tc in output["tool_calls"]]
+    assert "read_file" in tools_used, f"Expected read_file in tool_calls, got: {tools_used}"
+
+    # Check that answer mentions FastAPI
+    assert "fastapi" in output["answer"].lower(), f"Expected 'FastAPI' in answer, got: {output['answer']}"
+
+    print(f"✓ Test passed. Framework: FastAPI")
+
+
+def test_database_items_count_question():
+    """Test that database count question uses query_api tool."""
+    output = run_agent("How many items are in the database?")
+
+    # Check required fields
+    assert "answer" in output, "Missing 'answer' field"
+    assert "tool_calls" in output, "Missing 'tool_calls' field"
+    assert isinstance(output["tool_calls"], list), "'tool_calls' must be an array"
+
+    # Check that at least one tool call used query_api
+    tools_used = [tc.get("tool") for tc in output["tool_calls"]]
+    assert "query_api" in tools_used, f"Expected query_api in tool_calls, got: {tools_used}"
+
+    # Check that answer contains a number
+    import re
+    numbers = re.findall(r'\d+', output["answer"])
+    assert len(numbers) > 0, f"Expected a number in answer, got: {output['answer']}"
+
+    print(f"✓ Test passed. Items count: {numbers[0]}")
